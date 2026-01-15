@@ -83,51 +83,67 @@ export default function BuyButton({ productName, price }: BuyButtonProps) {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get payment token');
+        let errorMessage = 'Failed to get payment token';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          // If response is not JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
+      
+      if (!data.token) {
+        throw new Error('No payment token received. Please try again.');
+      }
+
       const { token, orderId } = data;
 
       console.log('✅ Payment token received:', orderId);
 
-      // 2. Trigger Midtrans Snap payment popup
-      if (window.snap) {
-        window.snap.pay(token, {
-          onSuccess: function (result: any) {
-            console.log('✅ Payment successful:', result);
-            alert(
-              `✅ Pembayaran Sukses!\n\nCek WhatsApp Anda untuk akses ${productName}. Terima kasih! 🎉`
-            );
-            // Redirect to dashboard or success page
-            window.location.href = '/dashboard';
-          },
-
-          onPending: function (result: any) {
-            console.log('⏳ Payment pending:', result);
-            alert('⏳ Menunggu pembayaran Anda...');
-            setLoading(false);
-          },
-
-          onError: function (result: any) {
-            console.error('❌ Payment error:', result);
-            setErrorMessage('Pembayaran gagal. Silakan coba lagi.');
-            setLoading(false);
-          },
-
-          onClose: function () {
-            console.log('❌ Payment dialog closed');
-            setLoading(false);
-          },
-        });
-      } else {
-        throw new Error('Midtrans Snap is not loaded. Please refresh the page.');
+      // 2. Check if Midtrans Snap is loaded
+      if (!window.snap) {
+        throw new Error('Payment gateway not loaded. Please refresh the page.');
       }
+
+      // 3. Trigger Midtrans Snap payment popup
+      window.snap.pay(token, {
+        onSuccess: function (result: any) {
+          console.log('✅ Payment successful:', result);
+          alert(
+            `✅ Pembayaran Sukses!\n\nCek WhatsApp Anda untuk akses ${productName}. Terima kasih! 🎉`
+          );
+          // Redirect to dashboard or success page
+          window.location.href = '/dashboard';
+        },
+
+        onPending: function (result: any) {
+          console.log('⏳ Payment pending:', result);
+          setErrorMessage('⏳ Pembayaran sedang diproses. Mohon tunggu...');
+          setLoading(false);
+        },
+
+        onError: function (result: any) {
+          console.error('❌ Payment error:', result);
+          setErrorMessage('Pembayaran gagal. Silakan coba lagi atau gunakan metode pembayaran lain.');
+          setLoading(false);
+        },
+
+        onClose: function () {
+          console.log('❌ Payment dialog closed');
+          setErrorMessage('Pembayaran dibatalkan. Silakan coba lagi jika ingin melanjutkan.');
+          setLoading(false);
+        },
+      });
     } catch (error) {
       console.error('❌ Error:', error);
       setErrorMessage(
-        error instanceof Error ? error.message : 'Terjadi kesalahan sistem. Coba lagi.'
+        error instanceof Error 
+          ? error.message 
+          : 'Terjadi kesalahan sistem. Coba lagi atau hubungi support.'
       );
       setLoading(false);
     }

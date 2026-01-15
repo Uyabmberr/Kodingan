@@ -15,15 +15,12 @@ const pricingPlans = [
       '✅ 10 Video AI/bulan',
       '✅ 5 E-Course/bulan',
       '✅ 50 GB Storage',
-      '✅ Support Email',
-      '❌ API Access',
-      '❌ Priority Support',
     ],
     highlighted: false,
   },
   {
     name: 'Professional',
-    price: 100000,
+    price: 200,
     description: 'Untuk content creator profesional',
     features: [
       '✅ 50 Video AI/bulan',
@@ -37,7 +34,7 @@ const pricingPlans = [
   },
   {
     name: 'Enterprise',
-    price: 300000,
+    price: 100,
     description: 'Untuk bisnis besar dan tim',
     features: [
       '✅ Unlimited Video AI',

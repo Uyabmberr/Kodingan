@@ -165,7 +165,7 @@ export default function Home() {
           <div className="bg-black/80 backdrop-blur-xl rounded-[1.4rem] p-10 text-center h-full border border-white/5">
             
             <span className="text-red-500 font-bold tracking-widest text-xs uppercase mb-4 block">Membership Premium</span>
-            <h2 className="text-4xl font-bold text-white mb-2">UNLOCK EVERYTHING</h2>
+            <h2 className="text-4xl font-bold text-white mb-2">Buka Semuanya</h2>
             <p className="text-gray-400 text-sm mb-8">Akses semua materi rahasia dan komunitas.</p>
 
             <div className="text-6xl font-bold text-white mb-8 tracking-tighter">
@@ -174,7 +174,6 @@ export default function Home() {
 
             <div className="space-y-4 mb-10 text-left pl-4 border-l border-zinc-800">
               <div className="text-sm text-gray-300">✅ E-Course Breeding Lengkap</div>
-              <div className="text-sm text-gray-300">✅ Akses AI Guppy Tools</div>
               <div className="text-sm text-gray-300">✅ Grup WhatsApp Exclusive</div>
             </div>
 

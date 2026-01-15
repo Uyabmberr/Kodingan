@@ -3,10 +3,16 @@ import { NextRequest, NextResponse } from 'next/server';
 // Initialize Midtrans Core API (Snap)
 const midtransClient = require('midtrans-client');
 
+// Validate environment variables
+if (!process.env.MIDTRANS_SERVER_KEY || !process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY) {
+  console.error('❌ ERROR: Midtrans API keys are not configured!');
+  console.error('Please set MIDTRANS_SERVER_KEY and NEXT_PUBLIC_MIDTRANS_CLIENT_KEY in .env.local');
+}
+
 const snap = new midtransClient.Snap({
   isProduction: false, // Set to true for production
-  serverKey: process.env.MIDTRANS_SERVER_KEY,
-  clientKey: process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY,
+  serverKey: process.env.MIDTRANS_SERVER_KEY || '',
+  clientKey: process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || '',
 });
 
 interface PaymentRequest {
@@ -20,6 +26,15 @@ interface PaymentRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // Validate environment variables at request time
+    if (!process.env.MIDTRANS_SERVER_KEY) {
+      console.error('❌ MIDTRANS_SERVER_KEY is missing');
+      return NextResponse.json(
+        { error: 'Payment gateway not configured. Contact support.' },
+        { status: 500 }
+      );
+    }
+
     const body: PaymentRequest = await request.json();
 
     // Validate required fields
@@ -87,9 +102,29 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('❌ Midtrans Error:', error);
+    console.error('❌ Midtrans Error Details:', {
+      message: error instanceof Error ? error.message : String(error),
+      error: error,
+    });
+
+    // Return more specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes('Unauthorized') || error.message.includes('authentication')) {
+        return NextResponse.json(
+          { error: 'Payment gateway authentication failed. Please check API keys.' },
+          { status: 500 }
+        );
+      }
+      if (error.message.includes('timeout')) {
+        return NextResponse.json(
+          { error: 'Payment service timeout. Please try again.' },
+          { status: 504 }
+        );
+      }
+    }
+
     return NextResponse.json(
-      { error: 'Failed to process payment request. Please try again.' },
+      { error: 'Failed to process payment request. Please try again or contact support.' },
       { status: 500 }
     );
   }

@@ -50,47 +50,50 @@ const pricingPlans = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white">
+      {/* Background Texture */}
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150"></div>
+
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-black bg-opacity-95 backdrop-blur-md border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-            🎬 Guppy AI
+      <nav className="sticky top-0 z-50 bg-black/50 backdrop-blur-md border-b border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center relative z-10">
+          <Link href="/" className="text-2xl font-bold tracking-tighter">
+            GUPPY <span className="text-red-600">INSIDER.</span>
           </Link>
-          <Link href="/" className="text-white hover:text-blue-500 font-medium transition">
+          <Link href="/" className="text-white hover:text-red-500 font-medium transition">
             ← Kembali
           </Link>
         </div>
       </nav>
 
       {/* Header */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <div className="space-y-6">
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-white">
-            Harga Transparan & Terjangkau
+            Pilih Paket <span className="text-red-600">TERBAIK</span>
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Pilih paket yang sesuai dengan kebutuhan Anda. Tingkatkan kapan saja tanpa kontrak jangka panjang.
+            Akses eksklusif materi breeding guppy premium dengan mentoring langsung.
           </p>
         </div>
       </section>
 
       {/* Pricing Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid md:grid-cols-3 gap-8">
           {pricingPlans.map((plan, idx) => (
             <div
               key={idx}
-              className={`relative rounded-2xl border transition-all ${
+              className={`group relative rounded-2xl border overflow-hidden transition-all backdrop-blur-sm ${
                 plan.highlighted
-                  ? 'border-blue-500 bg-gradient-to-br from-blue-950 to-black shadow-2xl scale-105 ring-2 ring-blue-500'
-                  : 'border-gray-700 bg-gray-900 shadow-lg hover:shadow-xl hover:border-gray-600'
+                  ? 'border-red-600/50 bg-red-950/20 shadow-[0_0_30px_rgba(220,38,38,0.2)] ring-1 ring-red-600/30 scale-105'
+                  : 'border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-900/50'
               }`}
             >
               {/* Popular Badge */}
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="px-4 py-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-bold rounded-full">
+                  <span className="px-4 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
                     ⭐ PALING POPULER
                   </span>
                 </div>
@@ -115,10 +118,10 @@ export default function PricingPage() {
                 </div>
 
                 {/* Features List */}
-                <div className="space-y-3 border-t border-gray-700 pt-8">
+                <div className="space-y-3 border-t border-zinc-800 pt-8">
                   {plan.features.map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-start gap-3">
-                      <span className="text-lg">{feature.split(' ')[0]}</span>
+                      <span className="text-red-500 font-bold">{feature.split(' ')[0]}</span>
                       <span className="text-gray-300">{feature.substring(3)}</span>
                     </div>
                   ))}
@@ -130,10 +133,10 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-gray-900 border-t border-gray-800 py-20">
+      <section className="relative z-10 bg-zinc-900/30 border-t border-zinc-800 py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Pertanyaan Umum</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">Pertanyaan <span className="text-red-600">UMUM</span></h2>
             <p className="text-gray-400">Jawaban untuk pertanyaan yang sering diajukan</p>
           </div>
 
@@ -156,7 +159,7 @@ export default function PricingPage() {
                 a: 'Anda dapat membatalkan langganan kapan saja melalui dashboard. Akses akan berakhir pada akhir periode billing.',
               },
             ].map((faq, idx) => (
-              <div key={idx} className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-gray-600 transition">
+              <div key={idx} className="bg-zinc-900/50 rounded-lg p-6 border border-zinc-800 hover:border-red-600/50 transition">
                 <h3 className="text-lg font-bold text-white mb-2">{faq.q}</h3>
                 <p className="text-gray-300">{faq.a}</p>
               </div>
@@ -166,17 +169,17 @@ export default function PricingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-12 border border-blue-700">
+      <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <div className="bg-red-950/30 rounded-2xl p-12 border border-red-600/30 backdrop-blur-sm">
           <h2 className="text-3xl font-bold text-white mb-4">Butuh Bantuan Memilih?</h2>
-          <p className="text-blue-100 mb-6">
+          <p className="text-red-200 mb-6">
             Tim support kami siap membantu Anda menemukan paket yang sempurna
           </p>
           <a
             href="https://wa.me/YOUR_WHATSAPP_NUMBER"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-all"
+            className="inline-block px-8 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-all"
           >
             💬 Chat WhatsApp
           </a>
@@ -184,26 +187,26 @@ export default function PricingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black border-t border-gray-800">
+      <footer className="relative z-10 bg-black border-t border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <p className="text-2xl font-bold mb-4">🎬 Guppy AI</p>
+              <p className="text-2xl font-bold mb-4">GUPPY <span className="text-red-600">INSIDER.</span></p>
               <p className="text-gray-500 text-sm">
-                Platform AI untuk content creator modern
+                Platform pembelajaran breeding guppy premium
               </p>
             </div>
             <div>
               <h4 className="font-bold text-white mb-4">Produk</h4>
               <ul className="space-y-2 text-sm text-gray-500">
                 <li>
-                  <a href="#" className="hover:text-red-500 transition">
-                    Video Generator
+                  <a href="/member" className="hover:text-red-500 transition">
+                    Member Dashboard
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-red-500 transition">
-                    E-Course Builder
+                  <a href="/" className="hover:text-red-500 transition">
+                    Kembali Ke Beranda
                   </a>
                 </li>
               </ul>
@@ -240,8 +243,8 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 Guppy AI. All rights reserved.</p>
+          <div className="border-t border-zinc-800 pt-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Guppy Insider. All rights reserved.</p>
           </div>
         </div>
       </footer>

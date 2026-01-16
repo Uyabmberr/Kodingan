@@ -174,13 +174,19 @@ export default function Home() {
 
             <div className="space-y-4 mb-10 text-left pl-4 border-l border-zinc-800">
               <div className="text-sm text-gray-300">✅ E-Course Breeding Lengkap</div>
+              <div className="text-sm text-gray-300">✅ Akses AI Guppy Tools</div>
               <div className="text-sm text-gray-300">✅ Grup WhatsApp Exclusive</div>
             </div>
 
-            <BuyButton price={30000} productName="Guppy Insider Membership" />
+            <a 
+              href="/member" 
+              className="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-red-900/50 uppercase tracking-widest"
+            >
+              MASUK MEMBER AREA
+            </a>
             
             <p className="mt-4 text-[10px] text-gray-600 uppercase">
-              Secure Payment by Midtrans
+              Sudah punya akun? Login di dalam.
             </p>
           </div>
         </SpotlightCard>

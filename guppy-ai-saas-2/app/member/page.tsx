@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import BuyButton from "@/components/BuyButton"; // Panggil Tombol Bayar Disini
 
-// --- DATA MATERI ---
+// --- KONFIGURASI ---
+const SECRET_CODE = "GUPPY-VIP-2026"; 
+
 const categories = [
   { id: 'business', label: 'PEMBISNIS', icon: '💼' },
   { id: 'breeder', label: 'BREEDER', icon: '🧬' },
@@ -16,23 +19,11 @@ const videos = {
       id: 1,
       title: "Mindset Bisnis Guppy 2026",
       desc: "Strategi fundamental mengubah hobi menjadi mesin uang.",
-      youtubeId: "43M1sGYdBeE", // Video Request Anda
-      locked: false, // INI YANG BISA DIBUKA
+      youtubeId: "43M1sGYdBeE", 
+      locked: false, 
     },
-    {
-      id: 2,
-      title: "Ekspor Jalur VIP",
-      desc: "Cara menembus pasar Eropa tanpa agen perantara.",
-      youtubeId: "", 
-      locked: true, // INI SLOT KOSONG
-    },
-    {
-      id: 3,
-      title: "Branding & Marketing",
-      desc: "Teknik jualan mahal walau ikan standar.",
-      youtubeId: "",
-      locked: true,
-    }
+    { id: 2, title: "Ekspor Jalur VIP", desc: "Materi Premium", locked: true },
+    { id: 3, title: "Branding & Marketing", desc: "Materi Premium", locked: true }
   ],
   breeder: [
     { id: 1, title: "Genetika Dasar", desc: "Coming Soon", locked: true },
@@ -46,6 +37,93 @@ const videos = {
 
 export default function MemberPage() {
   const [activeTab, setActiveTab] = useState('business');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [inputCode, setInputCode] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // Cek Login Tersimpan
+  useEffect(() => {
+    const savedAuth = localStorage.getItem('guppy_auth');
+    if (savedAuth === 'true') setIsAuthenticated(true);
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (inputCode === SECRET_CODE) {
+      setIsAuthenticated(true);
+      localStorage.setItem('guppy_auth', 'true');
+    } else {
+      setErrorMsg('Kode Salah! Cek WA Anda atau Beli Akses di bawah.');
+    }
+  };
+
+  // --- TAMPILAN 1: GATEWAY (LOGIN / BELI) ---
+  if (!isAuthenticated) {
+    return (
+      <main className="min-h-screen bg-black flex items-center justify-center p-4 font-sans selection:bg-red-600">
+         <div className="fixed inset-0 z-0 opacity-20 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150"></div>
+         
+         <div className="grid md:grid-cols-2 gap-8 max-w-4xl w-full z-10">
+            
+            {/* KOLOM KIRI: LOGIN (Jika sudah punya kode) */}
+            <motion.div 
+               initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
+               className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-700 p-8 rounded-3xl"
+            >
+                <h2 className="text-2xl font-black text-white mb-6 uppercase">
+                  Login <span className="text-red-600">Member</span>
+                </h2>
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <label className="text-xs text-gray-500 uppercase font-bold">Kode Akses (Dari WhatsApp)</label>
+                    <input 
+                      type="text" 
+                      value={inputCode}
+                      onChange={(e) => { setInputCode(e.target.value); setErrorMsg(''); }}
+                      placeholder="GUPPY-VIP-XXXX"
+                      className="w-full mt-2 bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white font-bold tracking-widest focus:outline-none focus:border-red-600 uppercase"
+                    />
+                  </div>
+                  {errorMsg && <p className="text-red-500 text-xs font-bold animate-pulse">{errorMsg}</p>}
+                  <button type="submit" className="w-full bg-white text-black hover:bg-gray-200 font-bold py-3 rounded-xl transition-all uppercase tracking-wide">
+                    Masuk Kelas
+                  </button>
+                </form>
+            </motion.div>
+
+            {/* KOLOM KANAN: BELI (Jika belum punya kode) */}
+            <motion.div 
+               initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.1 }}
+               className="bg-red-900/20 backdrop-blur-xl border border-red-900/50 p-8 rounded-3xl flex flex-col justify-center text-center relative overflow-hidden"
+            >
+                <div className="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">
+                  PREMIUM
+                </div>
+                
+                <h3 className="text-xl font-bold text-white mb-2">BELUM JADI MEMBER?</h3>
+                <p className="text-gray-400 text-sm mb-6">
+                  Dapatkan akses penuh ke video rahasia, grup WA, dan tools AI hanya dengan sekali bayar.
+                </p>
+
+                <div className="bg-black/50 rounded-xl p-4 mb-6 border border-red-900/30">
+                  <span className="text-3xl font-black text-red-500">Rp 30.000</span>
+                  <span className="text-xs text-gray-500 block">Investasi Sekali Seumur Hidup</span>
+                </div>
+
+                {/* TOMBOL MIDTRANS DISINI */}
+                <BuyButton price={30000} productName="Guppy VIP Access" />
+                
+                <p className="mt-4 text-[10px] text-gray-500">
+                  *Kode akses dikirim otomatis ke WA setelah bayar.
+                </p>
+            </motion.div>
+
+         </div>
+      </main>
+    );
+  }
+
+  // --- TAMPILAN 2: MATERI E-COURSE (Sama seperti sebelumnya) ---
 
   return (
     <main className="min-h-screen bg-black text-white font-sans selection:bg-red-600 selection:text-white">

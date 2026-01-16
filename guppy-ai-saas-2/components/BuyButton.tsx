@@ -155,7 +155,7 @@ export default function BuyButton({ productName, price }: BuyButtonProps) {
       {!showForm ? (
         <button
           onClick={() => setShowForm(true)}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
         >
           Beli Sekarang
           <br />
@@ -183,7 +183,7 @@ export default function BuyButton({ productName, price }: BuyButtonProps) {
             <input
               type="text"
               placeholder="Contoh: Budi Santoso"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
               disabled={loading}
@@ -198,7 +198,7 @@ export default function BuyButton({ productName, price }: BuyButtonProps) {
             <input
               type="email"
               placeholder="Contoh: budi@gmail.com"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               disabled={loading}
@@ -216,7 +216,7 @@ export default function BuyButton({ productName, price }: BuyButtonProps) {
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                 formData.phone && !formData.phone.startsWith('08')
                   ? 'border-red-500 focus:ring-red-500'
-                  : 'border-gray-300 focus:ring-blue-500'
+                  : 'border-gray-300 focus:ring-red-500'
               }`}
               value={formData.phone}
               onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -243,7 +243,7 @@ export default function BuyButton({ productName, price }: BuyButtonProps) {
             <button
               onClick={handleBuy}
               disabled={loading || !isFormValid}
-              className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 disabled:from-gray-400 disabled:to-gray-400 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-400 disabled:to-gray-400 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">

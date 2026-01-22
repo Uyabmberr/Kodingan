@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "botid": "^1.5.10",
     "clsx": "^2.1.1",
     "framer-motion": "^12.26.2",
     "midtrans-client": "^1.4.3",

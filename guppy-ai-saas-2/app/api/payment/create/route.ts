@@ -72,8 +72,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Create Payment Error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan tidak diketahui";
     return NextResponse.json(
-      { error: "Terjadi kesalahan saat membuat pembayaran", details: error.message },
+      { error: "Terjadi kesalahan saat membuat pembayaran", details: errorMessage },
       { status: 500 }
     );
   }

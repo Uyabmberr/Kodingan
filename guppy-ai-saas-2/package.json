@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.6.1",
     "framer-motion": "^12.26.2",
     "midtrans-client": "^1.4.3",
     "next": "16.1.2",

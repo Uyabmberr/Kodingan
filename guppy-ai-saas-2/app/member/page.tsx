@@ -39,7 +39,8 @@ export default function MemberPage() {
   const [activeTab, setActiveTab] = useState('business');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [inputCode, setInputCode] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [loginErrorMsg, setLoginErrorMsg] = useState('');
+  const [paymentErrorMsg, setPaymentErrorMsg] = useState('');
 
   // Cek Login Tersimpan
   useEffect(() => {
@@ -52,8 +53,9 @@ export default function MemberPage() {
     if (inputCode === SECRET_CODE) {
       setIsAuthenticated(true);
       localStorage.setItem('guppy_auth', 'true');
+      setLoginErrorMsg(''); // Clear error message on successful login
     } else {
-      setErrorMsg('Kode Salah! Cek WA Anda atau Beli Akses di bawah.');
+      setLoginErrorMsg('Kode Salah! Cek WA Anda atau Beli Akses di bawah.');
     }
   };
 
@@ -79,12 +81,12 @@ export default function MemberPage() {
                     <input 
                       type="text" 
                       value={inputCode}
-                      onChange={(e) => { setInputCode(e.target.value); setErrorMsg(''); }}
+                      onChange={(e) => { setInputCode(e.target.value); setLoginErrorMsg(''); }}
                       placeholder="GUPPY-VIP-XXXX"
                       className="w-full mt-2 bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white font-bold tracking-widest focus:outline-none focus:border-red-600 uppercase"
                     />
                   </div>
-                  {errorMsg && <p className="text-red-500 text-xs font-bold animate-pulse">{errorMsg}</p>}
+                  {loginErrorMsg && <p className="text-red-500 text-xs font-bold animate-pulse">{loginErrorMsg}</p>}
                   <button type="submit" className="w-full bg-white text-black hover:bg-gray-200 font-bold py-3 rounded-xl transition-all uppercase tracking-wide">
                     Masuk Kelas
                   </button>
@@ -110,8 +112,64 @@ export default function MemberPage() {
                   <span className="text-xs text-gray-500 block">Investasi Sekali Seumur Hidup</span>
                 </div>
 
-                {/* TOMBOL MIDTRANS DISINI */}
-                <BuyButton price={30000} productName="Guppy VIP Access" />
+                {/* FORM UNTUK PEMBAYARAN MAYAR */}
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const phone = formData.get('phone') as string;
+
+                  if (!phone) {
+                    setPaymentErrorMsg('Nomor WhatsApp diperlukan');
+                    return;
+                  }
+
+                  try {
+                    const response = await fetch('/api/payment/create', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        amount: 30000,
+                        productName: "Guppy VIP Access",
+                        customerPhone: phone,
+                      }),
+                    });
+
+                    if (!response.ok) {
+                      const errorData = await response.json();
+                      setPaymentErrorMsg(errorData.error || 'Gagal membuat pembayaran');
+                      return;
+                    }
+
+                    const { paymentUrl } = await response.json();
+                    window.location.href = paymentUrl;
+                  } catch (error) {
+                    setPaymentErrorMsg('Terjadi kesalahan saat membuat pembayaran');
+                  }
+                }} className="space-y-4">
+                  <div>
+                    <label className="text-xs text-gray-500 uppercase font-bold">Nomor WhatsApp</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="6281234567890"
+                      className="w-full mt-2 bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white font-bold tracking-widest focus:outline-none focus:border-red-600"
+                      required
+                      onChange={() => setPaymentErrorMsg('')}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white font-bold py-5 rounded-xl transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] uppercase tracking-[0.2em] text-sm relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                    MAYAR.ID PAYMENT →
+                  </button>
+                  {paymentErrorMsg && (
+                    <p className="text-red-500 text-xs mt-2 text-center animate-pulse">{paymentErrorMsg}</p>
+                  )}
+                </form>
                 
                 <p className="mt-4 text-[10px] text-gray-500">
                   *Kode akses dikirim otomatis ke WA setelah bayar.
@@ -188,17 +246,22 @@ export default function MemberPage() {
               key={index} 
               className={`group relative rounded-2xl overflow-hidden border ${video.locked ? 'border-zinc-800 bg-zinc-900/50' : 'border-red-900/30 bg-zinc-900'}`}
             >
-              {/* VIDEO PLAYER / THUMBNAIL */}
+                {/* VIDEO PLAYER / THUMBNAIL */}
               <div className="aspect-video bg-black relative flex items-center justify-center overflow-hidden">
                 {!video.locked ? (
-                   // --- VIDEO AKTIF (YOUTUBE EMBED) ---
-                   <iframe 
-                     className="w-full h-full"
-                     src={`https://www.youtube.com/embed/${video.youtubeId}?modestbranding=1&rel=0`}
-                     title={video.title}
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                     allowFullScreen
-                   ></iframe>
+                   // --- VIDEO AKTIF (REDIRECT TO LAMA WEBSITE) ---
+                   <div className="w-full h-full flex flex-col items-center justify-center text-center p-4">
+                     <div className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4">
+                       Akses Video di Website Lama
+                     </div>
+                     <p className="text-gray-300 text-sm mb-4">Klik tombol di bawah untuk membuka video di website lama</p>
+                     <button
+                       onClick={() => window.open('https://youtu.be/R0WqVuXhHOY', '_blank')}
+                       className="bg-gradient-to-r from-red-600 to-red-800 text-white px-6 py-3 rounded-full font-bold hover:from-red-500 hover:to-red-700 transition-all shadow-lg"
+                     >
+                       BUKA VIDEO →
+                     </button>
+                   </div>
                 ) : (
                    // --- VIDEO TERKUNCI ---
                    <div className="flex flex-col items-center justify-center text-zinc-600">

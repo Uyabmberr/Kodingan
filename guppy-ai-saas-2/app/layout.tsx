@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import MidtransScript from '../components/MidtransScript';
 import Cursor from '../components/Cursor';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Cursor />
         {children}
+        <Analytics />
 
         {/* Optional: Loading indicator for Midtrans */}
         <div

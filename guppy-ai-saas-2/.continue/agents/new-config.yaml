@@ -1,0 +1,15 @@
+{
+  "models": [
+    {
+      "title": "Qwen Coder 7B (Otak Pintar)",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:7b"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Qwen Coder 1.5B (Si Cepat)",
+    "provider": "ollama",
+    "model": "qwen2.5-coder:1.5b"
+  },
+  "allowAnonymousTelemetry": false
+}

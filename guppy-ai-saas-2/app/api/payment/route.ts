@@ -1,131 +1,47 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-// Initialize Midtrans Core API (Snap)
-const midtransClient = require('midtrans-client');
+// --- ISI TOKEN FONNTE DISINI ---
+const FONNTE_TOKEN = "BikdrZFkUW9ztDuePKy5";
 
-// Validate environment variables
-if (!process.env.MIDTRANS_SERVER_KEY || !process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY) {
-  console.error('❌ ERROR: Midtrans API keys are not configured!');
-  console.error('Please set MIDTRANS_SERVER_KEY and NEXT_PUBLIC_MIDTRANS_CLIENT_KEY in .env.local');
-}
-
-const snap = new midtransClient.Snap({
-  isProduction: false, // Set to true for production
-  serverKey: process.env.MIDTRANS_SERVER_KEY || '',
-  clientKey: process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || '',
-});
-
-interface PaymentRequest {
-  name: string;
-  email: string;
-  phone: string;
-  price: number;
-  productName: string;
-  id?: string;
-}
-
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    // Validate environment variables at request time
-    if (!process.env.MIDTRANS_SERVER_KEY) {
-      console.error('❌ MIDTRANS_SERVER_KEY is missing');
-      return NextResponse.json(
-        { error: 'Payment gateway not configured. Contact support.' },
-        { status: 500 }
-      );
+    const body = await request.json();
+
+    // 1. Cek Apakah Pembayaran Berhasil
+    // Mayar mengirim status 'paid' atau 'payment.received'
+    if (body.event === 'payment.received' || body.status === 'PAID') {
+
+      // 2. Ambil Data Pelanggan dari Mayar
+      const customerName = body.customer?.name || "Member Guppy";
+      const customerWA = body.customer?.mobile || body.customer?.phone;
+
+      // Pastikan ada nomor WA
+      if (customerWA) {
+
+        // 3. Susun Pesan WA
+        const message = `Halo ${customerName}! Pembayaran Sukses ✅\n\nSelamat bergabung di GUPPY INDONESIA VIP.\nBerikut akses rahasia Anda:\n\n🔗 Link: https://guppyindonesia.com/member\n🔑 Kode Akses: GUPPY-VIP-2026\n\nSimpan kode ini baik-baik. Selamat belajar!`;
+
+        // 4. Kirim ke Fonnte (Pengganti n8n)
+        await fetch('https://api.fonnte.com/send', {
+          method: 'POST',
+          headers: {
+            'Authorization': FONNTE_TOKEN,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            target: customerWA,
+            message: message,
+          })
+        });
+
+        console.log("WA Sukses dikirim ke:", customerWA);
+      }
     }
 
-    const body: PaymentRequest = await request.json();
+    return NextResponse.json({ status: "OK" });
 
-    // Validate required fields
-    if (!body.name || !body.email || !body.phone || !body.price || !body.productName) {
-      return NextResponse.json(
-        { error: 'Missing required fields: name, email, phone, price, productName' },
-        { status: 400 }
-      );
-    }
-
-    // Validate phone number format (Indonesian WhatsApp)
-    if (!body.phone.startsWith('08')) {
-      return NextResponse.json(
-        { error: 'Phone number must start with 08 (Indonesian format)' },
-        { status: 400 }
-      );
-    }
-
-    // Generate unique order ID
-    const orderId = `ORDER-${Date.now()}-${Math.random().toString(36).substring(7)}`;
-
-    // Prepare Midtrans transaction payload
-    const transactionData = {
-      transaction_details: {
-        order_id: orderId,
-        gross_amount: body.price,
-      },
-      customer_details: {
-        first_name: body.name,
-        email: body.email,
-        phone: body.phone, // ✅ CRITICAL: This will be sent to your n8n webhook
-      },
-      item_details: [
-        {
-          id: 'GUPPY-AI-' + body.productName.replace(/\s+/g, '-'),
-          price: body.price,
-          quantity: 1,
-          name: body.productName,
-          brand: 'Guppy AI',
-          category: 'SaaS Plan',
-          merchant_name: 'Guppy AI',
-        },
-      ],
-      // Optional: Enable to send data to external webhook after payment
-      callbacks: {
-        finish: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`,
-      },
-    };
-
-    // Create Midtrans transaction token
-    const snapToken = await snap.createTransaction(transactionData);
-
-    console.log('✅ Payment token created:', {
-      orderId,
-      customerPhone: body.phone,
-      snapToken: snapToken.token.substring(0, 20) + '...', // Log first 20 chars for security
-    });
-
-    return NextResponse.json(
-      {
-        token: snapToken.token,
-        redirect_url: snapToken.redirect_url,
-        orderId,
-      },
-      { status: 200 }
-    );
   } catch (error) {
-    console.error('❌ Midtrans Error Details:', {
-      message: error instanceof Error ? error.message : String(error),
-      error: error,
-    });
-
-    // Return more specific error messages
-    if (error instanceof Error) {
-      if (error.message.includes('Unauthorized') || error.message.includes('authentication')) {
-        return NextResponse.json(
-          { error: 'Payment gateway authentication failed. Please check API keys.' },
-          { status: 500 }
-        );
-      }
-      if (error.message.includes('timeout')) {
-        return NextResponse.json(
-          { error: 'Payment service timeout. Please try again.' },
-          { status: 504 }
-        );
-      }
-    }
-
-    return NextResponse.json(
-      { error: 'Failed to process payment request. Please try again or contact support.' },
-      { status: 500 }
-    );
+    console.error("Webhook Error:", error);
+    return NextResponse.json({ error: "Gagal memproses" }, { status: 500 });
   }
 }

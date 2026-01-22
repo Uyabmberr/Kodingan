@@ -114,7 +114,9 @@ export default function PricingPage() {
 
                 {/* Buy Button */}
                 <div className="mb-8">
-                  <BuyButton productName={`${plan.name} Plan`} price={plan.price} />
+                  <BuyButton productName={`${plan.name} Plan`} price={plan.price}>
+                  {plan.highlighted ? 'PILIH PLAN INI' : 'PILIH PLAN'}
+                </BuyButton>
                 </div>
 
                 {/* Features List */}

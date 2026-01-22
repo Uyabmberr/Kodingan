@@ -68,8 +68,8 @@ export default function BuyButton({
   const baseClasses = "font-bold rounded-full overflow-hidden relative transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black";
 
   const variantClasses = variant === 'primary'
-    ? "bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)]"
-    : "border border-white/20 bg-white/5 hover:bg-white/10 text-white";
+    ? "bg-gradient-to-r from-yellow-600 to-yellow-800 hover:from-yellow-500 hover:to-yellow-700 text-black shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:shadow-[0_0_50px_rgba(255,215,0,0.6)] border border-yellow-400/50"
+    : "border border-red-500/50 bg-red-600/20 hover:bg-red-600/40 text-red-300";
 
   const combinedClasses = `${baseClasses} ${variantClasses} ${className} ${isLoading ? 'opacity-70' : ''}`;
 

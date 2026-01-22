@@ -17,7 +17,7 @@ function SpotlightCard({ children, className = "" }: { children: React.ReactNode
 
   return (
     <div
-      className={`group relative border border-white/10 bg-zinc-900/50 overflow-hidden ${className}`}
+      className={`group relative border border-red-900/30 bg-black/80 overflow-hidden ${className}`}
       onMouseMove={handleMouseMove}
       role="region"
       aria-label="Spotlight card with interactive effect"
@@ -28,7 +28,7 @@ function SpotlightCard({ children, className = "" }: { children: React.ReactNode
           background: useMotionTemplate`
             radial-gradient(
               650px circle at ${mouseX}px ${mouseY}px,
-              rgba(220, 38, 38, 0.15),
+              rgba(220, 38, 38, 0.3),
               transparent 80%
             )
           `,
@@ -69,22 +69,22 @@ function CatalogCard({ item, index }: { item: any, index: number }) {
     >
       <motion.div
         style={{ rotateX, rotateY }}
-        className="aspect-[9/16] bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl mb-4 relative overflow-hidden border border-white/5 group-hover:border-red-600/50 transition-all shadow-2xl"
+        className="aspect-[9/16] bg-gradient-to-br from-black to-red-950/50 rounded-2xl mb-4 relative overflow-hidden border border-red-900/50 group-hover:border-red-600/80 transition-all shadow-2xl shadow-red-900/50"
         aria-label={`${item.name} - ${item.price}`}
       >
         {/* 3D GLASS EFFECT */}
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
         {/* PRODUCT IMAGE SIMULATION */}
         <div className="w-full h-full flex items-center justify-center">
-          <div className="text-6xl font-black text-zinc-600 group-hover:text-red-500 transition-colors">
+          <div className="text-6xl font-black text-red-900/50 group-hover:text-red-500 transition-colors">
             🐟
           </div>
         </div>
 
         {/* TAG POJOK KANAN ATAS */}
         <div
-          className="absolute top-2 right-2 bg-gradient-to-r from-red-600 to-red-800 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg z-20"
+          className="absolute top-2 right-2 bg-gradient-to-r from-red-600 to-red-800 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg z-20 border border-red-500/50"
           aria-label={`Tag: ${item.tag}`}
         >
           {item.tag}
@@ -94,11 +94,11 @@ function CatalogCard({ item, index }: { item: any, index: number }) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
-          className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4"
+          className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4"
         >
           <button
             onClick={handleWhatsAppClick}
-            className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white py-3 rounded-xl font-bold hover:from-red-500 hover:to-red-700 transition-all shadow-lg transform hover:scale-105"
+            className="w-full bg-gradient-to-r from-yellow-600 to-yellow-800 text-black py-3 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all shadow-lg transform hover:scale-105 shadow-yellow-600/50 border border-yellow-400/50"
           >
             BELI VIA WA →
           </button>
@@ -135,7 +135,7 @@ const catalog = [
 function CatalogPlaceholder() {
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="text-6xl font-black text-zinc-600">
+      <div className="text-6xl font-black text-red-900/50">
         🐟
       </div>
     </div>
@@ -163,6 +163,39 @@ export default function Home() {
         aria-hidden="true"
       ></div>
 
+      {/* 3. UNIQUE LIQUID GLASS EFFECT */}
+      <div
+        className="fixed inset-0 z-0 opacity-10 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 50% 50%, rgba(255,215,0,0.1) 0%, transparent 50%)",
+          animation: "float 20s ease-in-out infinite"
+        }}
+        aria-hidden="true"
+      ></div>
+
+      {/* 4. PARTICLE EFFECT */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-red-500 rounded-full opacity-20"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.2, 0.8, 0.2]
+            }}
+            transition={{
+              duration: 4 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 4
+            }}
+          />
+        ))}
+      </div>
+
       {/* --- HERO SECTION --- */}
       <section
         className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-4 pt-16 pb-24"
@@ -180,7 +213,7 @@ export default function Home() {
               className="py-1 px-3 border border-white/20 rounded-full text-xs font-mono text-gray-400 tracking-widest uppercase bg-white/5 backdrop-blur-sm"
               aria-label="Community tag"
             >
-              The Underground Community
+              Komunitas Eksklusif
             </span>
           </div>
 
@@ -188,18 +221,18 @@ export default function Home() {
             id="hero-title"
             className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-gray-500 mb-6"
           >
-            GUPPY <span className="text-red-600">INSIDER.</span>
+            GUPPY <span className="text-red-600">INDONESIA.</span>
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Selamat datang di sisi lain industri Guppy. <br />
-            Tempat di mana rahasia breeding & bisnis dibongkar tanpa sensor.
+            Selamat datang di komunitas guppy terbesar di Indonesia. <br />
+            Tempat para pecinta guppy berkumpul dan berbagi ilmu.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#pricing"
-              className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-white"
+              className="group relative px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-800 text-black font-bold rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-yellow-500"
             >
               <span className="relative z-10 group-hover:text-white transition-colors">GABUNG SEKARANG</span>
               <div className="absolute inset-0 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
@@ -208,7 +241,7 @@ export default function Home() {
               href="https://www.instagram.com/guppyindonesia111"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 border border-white/20 rounded-full text-gray-300 hover:bg-white/5 transition-all font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-white"
+              className="px-8 py-4 border border-red-500/50 rounded-full text-red-300 hover:bg-red-600/20 transition-all font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-red-500"
             >
               Lihat Bukti (Instagram)
             </a>
@@ -308,7 +341,7 @@ export default function Home() {
             <BuyButton
               price={30000}
               productName="Guppy VIP Access"
-              className="w-full py-5 rounded-xl shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] uppercase tracking-[0.2em] text-sm"
+              className="w-full py-5 rounded-xl shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:shadow-[0_0_50px_rgba(255,215,0,0.6)] uppercase tracking-[0.2em] text-sm"
             >
               MASUK MEMBER AREA →
             </BuyButton>

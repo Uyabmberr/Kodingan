@@ -194,10 +194,16 @@ export default function MemberPage() {
           <div className="font-bold text-xl tracking-tighter">
             GUPPY <span className="text-red-600">INSIDER.</span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-xs font-mono text-gray-400">STATUS: MEMBER AKTIF</span>
-          </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                  <span className="text-xs font-mono text-gray-400">STATUS: MEMBER AKTIF</span>
+                  <button 
+                    onClick={() => window.location.href = '/member-dashboard'}
+                    className="ml-4 px-4 py-2 bg-gradient-to-r from-red-600 to-red-800 text-white rounded-lg font-medium hover:from-red-500 hover:to-red-700 transition-all"
+                  >
+                    Buka Dashboard Baru
+                  </button>
+                </div>
         </div>
       </header>
 

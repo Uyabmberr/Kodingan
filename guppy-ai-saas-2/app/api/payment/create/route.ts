@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 // Environment variables
 const MAYAR_API_KEY = process.env.MAYAR_API_KEY;
 const MAYAR_WEBHOOK_URL = process.env.MAYAR_WEBHOOK_URL || `${process.env.NEXT_PUBLIC_APP_URL}/api/payment`;
-const MERCHANT_NAME = process.env.MERCHANT_NAME || "Guppy Insider";
+const MERCHANT_NAME = process.env.MERCHANT_NAME || "Guppy Indonesia";
 
 export async function POST(request: Request) {
   try {
@@ -17,12 +17,27 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if Mayar API key is configured
+    if (!MAYAR_API_KEY || MAYAR_API_KEY === "your_mayar_api_key_here") {
+      console.log("Mayar API key not configured, using mock payment system");
+      
+      // Generate mock payment URL for testing
+      const orderId = `order-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const mockPaymentUrl = `${process.env.NEXT_PUBLIC_APP_URL}/member?order_id=${orderId}&status=pending`;
+      
+      return NextResponse.json({
+        paymentUrl: mockPaymentUrl,
+        orderId: orderId,
+        message: "Mock payment created successfully (Mayar API not configured)"
+      });
+    }
+
     // Prepare Mayar payment payload
     const paymentData = {
       amount: amount.toString(),
       currency: "IDR",
       description: productName,
-      external_id: `order-${Date.now()}`, // Unique order ID
+      external_id: `order-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // Unique order ID
       buyer_name: customerPhone, // Using phone as identifier
       redirect_url: `${process.env.NEXT_PUBLIC_APP_URL}/member`, // Redirect after payment
       webhook_url: MAYAR_WEBHOOK_URL,
@@ -40,7 +55,7 @@ export async function POST(request: Request) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({ message: "Failed to parse error response" }));
       console.error("Mayar API Error:", errorData);
       return NextResponse.json(
         { error: "Gagal membuat invoice di Mayar", details: errorData },
@@ -58,7 +73,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Create Payment Error:", error);
     return NextResponse.json(
-      { error: "Terjadi kesalahan saat membuat pembayaran" },
+      { error: "Terjadi kesalahan saat membuat pembayaran", details: error.message },
       { status: 500 }
     );
   }

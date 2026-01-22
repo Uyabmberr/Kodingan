@@ -36,7 +36,7 @@ export default function BuyButton({
         }
       }
 
-      // Call API to create Mayar payment
+      // Call API to create payment
       const response = await fetch('/api/payment/create', {
         method: 'POST',
         headers: {
@@ -50,13 +50,19 @@ export default function BuyButton({
       });
 
       if (!response.ok) {
-        throw new Error('Gagal membuat pembayaran');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Gagal membuat pembayaran');
       }
 
-      const { paymentUrl } = await response.json();
+      const result = await response.json();
 
-      // Redirect to Mayar payment page
-      window.location.href = paymentUrl;
+      // Handle both real and mock payment responses
+      if (result.paymentUrl) {
+        // Redirect to payment page
+        window.location.href = result.paymentUrl;
+      } else {
+        throw new Error('Tautan pembayaran tidak ditemukan');
+      }
     } catch (err: any) {
       console.error('Payment error:', err);
       setError(err.message || 'Terjadi kesalahan saat memproses pembayaran');

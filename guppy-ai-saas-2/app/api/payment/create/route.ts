@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     }
 
     // Check if Mayar API key is configured
-    if (!MAYAR_API_KEY || MAYAR_API_KEY === "your_mayar_api_key_here") {
+    if (!MAYAR_API_KEY || MAYAR_API_KEY === "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGI3N2MyOC00OTgzLTQwNTktOGFlNS1lMjQ1OTBkOTYxZDEiLCJhY2NvdW50SWQiOiJjMTJiMzRmNC0xY2RhLTQxNzctYmQ5ZC1hOWM0OGU4NDc1M2QiLCJjcmVhdGVkQXQiOiIxNzY5MDczMzkzNjIyIiwicm9sZSI6ImRldmVsb3BlciIsInN1YiI6ImFkaXRiYXlwZXJAZ21haWwuY29tIiwibmFtZSI6IkdlbmFydW5pa2EiLCJsaW5rIjoiYWRpdHlhLWJheXUtcGVybWFuYSIsImlzU2VsZkRvbWFpbiI6bnVsbCwiaWF0IjoxNzY5MDczMzkzfQ.k-jICfzR0_kczktvx9aCYdzbzMyiz9dZTHFEve2_Wm42pR54ctKORT9OPiWXOaY-co-cFwoGFOikMccojjPyfmwVpTPVNk44nFGV7OtkLJW3fKVbQ0R4MxKoDe2nRnfkiszJQ_AUQ096PQVfHmiaLUqlJ3hzuKvXA1FQ3hIGK1MqsZcPfyCNN5ud5IGlZrnhFzJ9YvRi-GLOr3Fxa7KzgXNXzMc_gY0Vr9Xi0RuvrBxWVzNi_lmGMCODsunyTDkmCCfYPatIx7yCQpNmOBfPUzUBZ8sd8p2pQh9wiNRNgjT5VMakVsEEyK173hrVKkp15lNMSvd2OjPnmM01nLjxeA") {
       console.log("Mayar API key not configured, using mock payment system");
       
       // Generate mock payment URL for testing

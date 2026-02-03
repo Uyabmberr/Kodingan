@@ -118,17 +118,14 @@ function CatalogCard({ item, index }: { item: any, index: number }) {
 
 // --- DATA ---
 const features = [
-  { title: "GENETIK MURNI", desc: "Database indukan juara dunia yang terjaga kemurniannya." },
-  { title: "RAHASIA DAPUR", desc: "Formulasi pakan & perawatan air yang tidak dishare di Youtube." },
-  { title: "MARKET DISRUPTOR", desc: "Strategi menjual guppy di harga tinggi ke pasar internasional." },
-  { title: "FULL MENTORING", desc: "Bimbingan langsung via WhatsApp sampai balik modal." },
+  { title: "TEKNIK JUALAN", desc: "RAHASIA KAMI DALAM MENCAPAI TARGET" },
 ];
 
 const catalog = [
   { name: "Albino Full Red", price: "Rp 150K", tag: "BEST SELLER", alt: "Albino Full Red Guppy Fish" },
-  { name: "Blue Moscow", price: "Rp 200K", tag: "KONTES", alt: "Blue Moscow Guppy Fish" },
-  { name: "Black Moscow", price: "Rp 100K", tag: "PEMULA", alt: "Black Moscow Guppy Fish" },
-  { name: "HB White", price: "Rp 120K", tag: "RARE", alt: "HB White Guppy Fish" },
+  { name: "Topaz", price: "Rp 200K", tag: "KONTES", alt: "Blue Moscow Guppy Fish" },
+  { name: "PRTDE", price: "Rp 100K", tag: "PEMULA", alt: "Black Moscow Guppy Fish" },
+  { name: "Guppy Blue Diamondte", price: "Rp 120K", tag: "RARE", alt: "HB White Guppy Fish" },
 ];
 
 // Lightweight placeholder for catalog items
@@ -225,7 +222,7 @@ export default function Home() {
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Selamat datang di komunitas guppy terbesar di Indonesia. <br />
+            Selamat datang di komunitas guppy terbesar No.3 di Indonesia. <br />
             Tempat para pecinta guppy berkumpul dan berbagi ilmu.
           </p>
 
@@ -325,16 +322,14 @@ export default function Home() {
 
             <span className="text-red-500 font-bold tracking-widest text-xs uppercase mb-4 block">Membership Premium</span>
             <h2 id="pricing-heading" className="text-3xl sm:text-4xl font-bold text-white mb-2">UNLOCK EVERYTHING</h2>
-            <p className="text-gray-400 text-sm mb-8">Akses semua materi rahasia, tools AI, dan komunitas.</p>
+            <p className="text-gray-400 text-sm mb-8">Akses semua materi rahasia.</p>
 
             <div className="text-5xl sm:text-6xl font-bold text-white mb-8 tracking-tighter">
-              30rb<span className="text-base sm:text-lg text-gray-500 font-normal">/seumur hidup</span>
+              30rb<span className="text-base sm:text-lg text-gray-500 font-normal">/SELAMANYA</span>
             </div>
 
             <div className="space-y-4 mb-10 text-left pl-4 border-l border-zinc-800">
-              <div className="text-sm text-gray-300">✅ E-Course Breeding Lengkap</div>
-              <div className="text-sm text-gray-300">✅ Akses AI Guppy Tools</div>
-              <div className="text-sm text-gray-300">✅ Grup WhatsApp Exclusive</div>
+              <div className="text-sm text-gray-300">✅ E-Course KHUSUS</div>
             </div>
 
             {/* TOMBOL PEMBAYARAN LANGSUNG */}

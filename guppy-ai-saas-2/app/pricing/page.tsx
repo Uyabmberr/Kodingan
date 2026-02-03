@@ -2,7 +2,7 @@ import BuyButton from '../../components/BuyButton';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Harga - Guppy AI',
+  title: 'Kelas Online',
   description: 'Pilih paket harga terbaik untuk kebutuhan Anda. Mulai dari Basic hingga Pro.',
 };
 
@@ -12,9 +12,7 @@ const pricingPlans = [
     price: 200,
     description: 'Perfect untuk pemula',
     features: [
-      '✅ 10 Video AI/bulan',
-      '✅ 5 E-Course/bulan',
-      '✅ 50 GB Storage',
+      '✅ Materi dasar Guppy',
     ],
 ];
 
@@ -28,7 +26,7 @@ export default function PricingPage() {
       <nav className="sticky top-0 z-50 bg-black/50 backdrop-blur-md border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center relative z-10">
           <Link href="/" className="text-2xl font-bold tracking-tighter">
-            GUPPY <span className="text-red-600">INSIDER.</span>
+            GUPPY <span className="text-red-600">INDONESIA.</span>
           </Link>
           <Link href="/" className="text-white hover:text-red-500 font-medium transition">
             ← Kembali
@@ -43,7 +41,7 @@ export default function PricingPage() {
             Pilih Paket <span className="text-red-600">TERBAIK</span>
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Akses eksklusif materi breeding guppy premium dengan mentoring langsung.
+            Akses eksklusif materi guppy premium.
           </p>
         </div>
       </section>
@@ -85,7 +83,7 @@ export default function PricingPage() {
                 {/* Buy Button */}
                 <div className="mb-8">
                   <BuyButton productName={`${plan.name} Plan`} price={plan.price}>
-                  {plan.highlighted ? 'PILIH PLAN INI' : 'PILIH PLAN'}
+                  {plan.highlighted ? 'BELAJAR GUPPY' : 'PILIH PLAN'}
                 </BuyButton>
                 </div>
 
@@ -121,10 +119,6 @@ export default function PricingPage() {
               {
                 q: 'Bisakah saya mengubah paket kapan saja?',
                 a: 'Ya, Anda dapat upgrade atau downgrade paket kapan saja. Perubahan akan berlaku pada tagihan berikutnya.',
-              },
-              {
-                q: 'Apakah ada uji coba gratis?',
-                a: 'Ya, Anda mendapatkan akses 7 hari gratis untuk mencoba semua fitur sebelum berlangganan.',
               },
               {
                 q: 'Bagaimana cara membatalkan langganan?',
@@ -165,7 +159,7 @@ export default function PricingPage() {
             <div>
               <p className="text-2xl font-bold mb-4">GUPPY <span className="text-red-600">INSIDER.</span></p>
               <p className="text-gray-500 text-sm">
-                Platform pembelajaran breeding guppy premium
+                Platform pembelajaran branding guppy premium
               </p>
             </div>
             <div>
@@ -216,7 +210,7 @@ export default function PricingPage() {
           </div>
 
           <div className="border-t border-zinc-800 pt-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 Guppy Insider. All rights reserved.</p>
+            <p>&copy; 2026 Guppy Indonesia. All rights reserved.</p>
           </div>
         </div>
       </footer>

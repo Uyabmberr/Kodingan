@@ -339,7 +339,15 @@ export default function Home() {
               className="w-full py-5 rounded-xl shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:shadow-[0_0_50px_rgba(255,215,0,0.6)] uppercase tracking-[0.2em] text-sm"
             >
               MASUK MEMBER AREA →
-            </BuyButton>
+            {/* TOMBOL PEMBAYARAN LANGSUNG */}
+              <a 
+                href="https://aditya-bayu-permana.myr.id/plink/guppy-indonesia-academy-41295" 
+                style={{ display: 'block', width: '100%' }}
+                >
+                <button className="w-full py-5 rounded-xl bg-[#FFD700] text-black font-bold shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:shadow-[0_0_50px_rgba(255,215,0,0.6)] uppercase tracking-[0.2em] text-sm transition-all text-center">
+                  BAYAR & MASUK MEMBER AREA →
+                </button>
+              </a>
 
             <p className="mt-6 text-[10px] text-gray-500 uppercase tracking-widest">
               Login atau Daftar di Halaman Selanjutnya

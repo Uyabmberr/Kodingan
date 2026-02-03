@@ -9,10 +9,11 @@ interface PaymentButtonProps {
   className?: string;
 }
 
-export default function PaymentButton({ 
-  price, 
-  productName, 
-  phoneNumber 
+export default function PaymentButton({
+  price,
+  productName,
+  phoneNumber,
+  className
 }: PaymentButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +21,7 @@ export default function PaymentButton({
   const initiatePayment = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Get customer phone number if not provided
       let customerPhone: string | undefined = phoneNumber;
@@ -50,7 +51,7 @@ export default function PaymentButton({
       }
 
       const { paymentUrl } = await response.json();
-      
+
       // Redirect to Mayar payment page
       window.location.href = paymentUrl;
     } catch (err: any) {

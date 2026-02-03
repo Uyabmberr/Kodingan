@@ -23,12 +23,13 @@ export default function PaymentButton({
     
     try {
       // Get customer phone number if not provided
-      let customerPhone = phoneNumber;
+      let customerPhone: string | undefined = phoneNumber;
       if (!customerPhone) {
-        customerPhone = prompt('Masukkan nomor WhatsApp Anda (contoh: 6281234567890):');
-        if (!customerPhone) {
+        const promptedPhone = prompt('Masukkan nomor WhatsApp Anda (contoh: 6281234567890):');
+        if (!promptedPhone) {
           throw new Error('Nomor WhatsApp diperlukan');
         }
+        customerPhone = promptedPhone;
       }
 
       // Call API to create Mayar payment

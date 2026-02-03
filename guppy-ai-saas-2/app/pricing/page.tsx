@@ -16,36 +16,6 @@ const pricingPlans = [
       '✅ 5 E-Course/bulan',
       '✅ 50 GB Storage',
     ],
-    highlighted: false,
-  },
-  {
-    name: 'Professional',
-    price: 200,
-    description: 'Untuk content creator profesional',
-    features: [
-      '✅ 50 Video AI/bulan',
-      '✅ 25 E-Course/bulan',
-      '✅ 250 GB Storage',
-      '✅ Support WhatsApp',
-      '✅ API Access (Terbatas)',
-      '✅ Priority Support',
-    ],
-    highlighted: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 100,
-    description: 'Untuk bisnis besar dan tim',
-    features: [
-      '✅ Unlimited Video AI',
-      '✅ Unlimited E-Course',
-      '✅ 1 TB Storage',
-      '✅ Dedicated Support 24/7',
-      '✅ Full API Access',
-      '✅ Custom Integration',
-    ],
-    highlighted: false,
-  },
 ];
 
 export default function PricingPage() {

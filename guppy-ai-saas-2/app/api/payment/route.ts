@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-// --- ISI TOKEN FONNTE DISINI ---
-const FONNTE_TOKEN = "BikdrZFkUW9ztDuePKy5";
+// Use FONNTE token from environment for sending WA notifications
+const FONNTE_TOKEN = process.env.FONNTE_TOKEN || "";
 
 export async function POST(request: Request) {
   try {
@@ -19,20 +19,25 @@ export async function POST(request: Request) {
       if (customerWA) {
 
         // 3. Susun Pesan WA
-        const message = `Halo ${customerName}! Pembayaran Sukses ✅\n\nSelamat bergabung di GUPPY INDONESIA VIP.\nBerikut akses rahasia Anda:\n\n🔗 Link: https://guppyindonesia.com/member\n🔑 Kode Akses: GUPPY-VIP-2026\n\nSimpan kode ini baik-baik. Selamat belajar!`;
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mayar.id';
+        const message = `Halo ${customerName}! Pembayaran Sukses ✅\n\nSelamat bergabung di GUPPY INDONESIA VIP.\nBerikut akses rahasia Anda:\n\n🔗 Link: ${baseUrl}/member\n🔑 Kode Akses: GUPPY-VIP-2026\n\nSimpan kode ini baik-baik. Selamat belajar!`;
 
         // 4. Kirim ke Fonnte (Pengganti n8n)
-        await fetch('https://api.fonnte.com/send', {
-          method: 'POST',
-          headers: {
-            'Authorization': FONNTE_TOKEN,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            target: customerWA,
-            message: message,
-          })
-        });
+        if (FONNTE_TOKEN) {
+          await fetch('https://api.fonnte.com/send', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${FONNTE_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              target: customerWA,
+              message: message,
+            })
+          });
+        } else {
+          console.log('FONNTE_TOKEN not set; skipping WA send. Message would be:', message);
+        }
 
         console.log("WA Sukses dikirim ke:", customerWA);
       }

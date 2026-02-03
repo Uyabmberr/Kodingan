@@ -3,7 +3,9 @@
     "botid": "^1.5.10",
     "clsx": "^2.1.1",
     "framer-motion": "^12.26.2",
+    "lucide-react": "^0.563.0",
     "midtrans-client": "^1.4.3",
+    "next": "^16.1.4",
     "tailwind-merge": "^3.4.0"
   }
 }

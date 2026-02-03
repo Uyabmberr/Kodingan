@@ -30,10 +30,11 @@ export default function BuyButton({
       // Get customer phone number if not provided
       let customerPhone = phoneNumber;
       if (!customerPhone) {
-        customerPhone = prompt('Masukkan nomor WhatsApp Anda (contoh: 6281234567890):');
-        if (!customerPhone) {
+        const promptedPhone = prompt('Masukkan nomor WhatsApp Anda (contoh: 6281234567890):');
+        if (!promptedPhone) {
           throw new Error('Nomor WhatsApp diperlukan');
         }
+        customerPhone = promptedPhone;
       }
 
       // Call API to create payment
@@ -74,8 +75,8 @@ export default function BuyButton({
   const baseClasses = "font-bold rounded-full overflow-hidden relative transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black";
 
   const variantClasses = variant === 'primary'
-    ? "bg-gradient-to-r from-yellow-600 to-yellow-800 hover:from-yellow-500 hover:to-yellow-700 text-black shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:shadow-[0_0_50px_rgba(255,215,0,0.6)] border border-yellow-400/50"
-    : "border border-red-500/50 bg-red-600/20 hover:bg-red-600/40 text-red-300";
+    ? "bg-gradient-to-r from-[#0b0b0b] to-[#2b0b0b] text-white shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_40px_rgba(212,175,55,0.25)] border border-[#2b0b0b]"
+    : "border border-red-700 bg-red-900/10 hover:bg-red-900/20 text-white";
 
   const combinedClasses = `${baseClasses} ${variantClasses} ${className} ${isLoading ? 'opacity-70' : ''}`;
 
